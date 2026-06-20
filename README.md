@@ -1,0 +1,1 @@
+# Gestor-store-VPremium-scaneer
