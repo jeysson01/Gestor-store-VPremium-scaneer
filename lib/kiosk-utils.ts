@@ -13,6 +13,10 @@ export function getKioskAppBaseUrl(originOverride?: string): string {
 
   if (typeof window !== 'undefined') {
     const origin = window.location.origin;
+    // Dentro de la app nativa (tauri://localhost) el QR debe apuntar a la versión web desplegada.
+    if (!/^https?:/.test(origin) && process.env.NEXT_PUBLIC_APP_URL) {
+      return process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, '');
+    }
     const envUrl = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, '');
     const isLocalHost =
       window.location.hostname === 'localhost' ||

@@ -4,8 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { createPurchase, updatePurchase } from '@/lib/actions/purchases';
-import { getProducts } from '@/lib/actions/products';
+import { createPurchase, updatePurchase } from '@/lib/data/repo/purchases';
+import { getProducts } from '@/lib/data/repo/products';
 import { ProductCombobox } from '@/components/product-combobox';
 import { QuantityStepper } from '@/components/quantity-stepper';
 import {

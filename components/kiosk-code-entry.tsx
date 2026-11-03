@@ -7,7 +7,7 @@ import { ArrowLeftIcon, QrCodeIcon, Loader2Icon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
-import { loginWithKioskCode, loginWithKioskQr } from '@/lib/actions/auth';
+import { loginWithKioskCode, loginWithKioskQr } from '@/lib/data/repo/auth';
 import { toast } from 'sonner';
 
 function getDeviceId(): string {
@@ -33,7 +33,7 @@ export function KioskCodeEntry() {
     if (!qr || qrHandled.current) return;
     qrHandled.current = true;
 
-    (async () => {
+    void (async () => {
       setLoading(true);
       const result = await loginWithKioskQr(qr, getDeviceId());
       if (result.success) {

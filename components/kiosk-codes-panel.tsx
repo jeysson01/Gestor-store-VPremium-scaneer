@@ -5,7 +5,7 @@ import { RefreshCwIcon, MonitorIcon, ClockIcon } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { getKioskCodesForAdmin } from '@/lib/actions/auth';
+import { getKioskCodesForAdmin } from '@/lib/data/repo/auth';
 import {
   getKioskAppBaseUrl,
   getKioskQrImageUrl,

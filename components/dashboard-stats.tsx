@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useDataVersion } from '@/lib/data/hooks';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -9,7 +10,7 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { Loader2Icon, TrophyIcon } from 'lucide-react';
-import { getPurchaseStats, getTopSuppliers } from '@/lib/actions/purchases';
+import { getPurchaseStats, getTopSuppliers } from '@/lib/data/repo/purchases';
 import { formatSoles } from '@/lib/utils';
 
 type DayPurchaseStat = {
@@ -37,6 +38,8 @@ export function DashboardStats() {
   const [withoutSupplier, setWithoutSupplier] = useState<SupplierRank | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const dataVersion = useDataVersion(['purchases', 'products']);
+
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -57,8 +60,8 @@ export function DashboardStats() {
       }
     };
 
-    loadData();
-  }, []);
+    void loadData();
+  }, [dataVersion]);
 
   if (loading) {
     return (

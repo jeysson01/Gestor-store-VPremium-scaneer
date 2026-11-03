@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getProducts, createProduct, updateProduct, deleteProduct } from '@/lib/actions/products';
+import { useDataVersion } from '@/lib/data/hooks';
+import { getProducts, createProduct, updateProduct, deleteProduct } from '@/lib/data/repo/products';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -133,6 +134,12 @@ export function ProductsList() {
     defaultValues: defaultFormValues,
   });
 
+  const productsVersion = useDataVersion(['products']);
+  useEffect(() => {
+    if (productsVersion > 0) void loadProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productsVersion]);
+
   const loadProducts = async () => {
     try {
       setLoading(true);
@@ -150,7 +157,7 @@ export function ProductsList() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      loadProducts();
+      void loadProducts();
     }, 300);
     return () => clearTimeout(timer);
   }, [search]);
@@ -162,7 +169,7 @@ export function ProductsList() {
         toast.success('Producto creado exitosamente');
         setCreateOpen(false);
         createForm.reset(defaultFormValues);
-        loadProducts();
+        void loadProducts();
       } else {
         toast.error(result.error || 'Error al crear producto');
       }
@@ -195,7 +202,7 @@ export function ProductsList() {
         toast.success('Producto actualizado');
         setEditOpen(false);
         setEditingProduct(null);
-        loadProducts();
+        void loadProducts();
       } else {
         toast.error(result.error || 'Error al actualizar producto');
       }
@@ -210,7 +217,7 @@ export function ProductsList() {
       const result = await deleteProduct(id);
       if (result.success) {
         toast.success('Producto eliminado');
-        loadProducts();
+        void loadProducts();
       } else {
         toast.error('Error al eliminar producto');
       }

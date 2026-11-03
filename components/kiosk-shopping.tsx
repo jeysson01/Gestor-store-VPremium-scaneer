@@ -13,8 +13,8 @@ import {
   getKioskProductById,
   getKioskProducts,
   registerKioskPurchase,
-} from '@/lib/actions/kiosk';
-import { logout } from '@/lib/actions/auth';
+} from '@/lib/data/repo/kiosk';
+import { logout } from '@/lib/data/repo/auth';
 import { notifyYapePendingRefresh } from '@/components/yape-notifier';
 import { formatSoles } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -46,7 +46,7 @@ export function KioskShopping() {
   const total = cart.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
 
   useEffect(() => {
-    getKioskProducts().then((result) => {
+    void getKioskProducts().then((result) => {
       if (result.success && result.data) {
         setCatalog(result.data);
       }
@@ -216,6 +216,12 @@ export function KioskShopping() {
                         label="Cámara"
                         className="h-12 px-4 shrink-0"
                       />
+                      <BarcodeScanButton
+                        onScan={handleScan}
+                        label="Continuo"
+                        continuous
+                        className="h-12 px-4 shrink-0"
+                      />
                     </div>
                     <Button
                       className="w-full h-11"
@@ -232,7 +238,7 @@ export function KioskShopping() {
                       value={selectedProductId}
                       onSelect={(id) => {
                         setSelectedProductId(id);
-                        handleSelectByName(id);
+                        void handleSelectByName(id);
                       }}
                       placeholder="Buscar producto por nombre..."
                       className="h-12 text-base"
