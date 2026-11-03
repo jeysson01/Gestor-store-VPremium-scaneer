@@ -1,0 +1,11 @@
+node_modules/
+.next/
+out/
+.env*.local
+.env
+*.tsbuildinfo
+src-tauri/target/
+src-tauri/gen/schemas/
+supabase/.temp/
+supabase/.branches/
+public/zxing_reader.wasm

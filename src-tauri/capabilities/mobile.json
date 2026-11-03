@@ -1,0 +1,8 @@
+{
+  "$schema": "../gen/schemas/mobile-schema.json",
+  "identifier": "mobile",
+  "description": "Escáner nativo en iOS",
+  "platforms": ["iOS", "android"],
+  "windows": ["main"],
+  "permissions": ["barcode-scanner:default"]
+}

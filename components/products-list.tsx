@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getProducts, createProduct, updateProduct, deleteProduct } from '@/lib/actions/products';
+import { useDataVersion } from '@/lib/data/hooks';
+import { getProducts, createProduct, updateProduct, deleteProduct } from '@/lib/data/repo/products';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -132,6 +133,12 @@ export function ProductsList() {
     resolver: zodResolver(ProductFormSchema),
     defaultValues: defaultFormValues,
   });
+
+  const productsVersion = useDataVersion(['products']);
+  useEffect(() => {
+    if (productsVersion > 0) void loadProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productsVersion]);
 
   const loadProducts = async () => {
     try {

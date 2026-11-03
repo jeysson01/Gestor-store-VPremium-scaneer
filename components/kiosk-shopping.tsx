@@ -13,8 +13,8 @@ import {
   getKioskProductById,
   getKioskProducts,
   registerKioskPurchase,
-} from '@/lib/actions/kiosk';
-import { logout } from '@/lib/actions/auth';
+} from '@/lib/data/repo/kiosk';
+import { logout } from '@/lib/data/repo/auth';
 import { notifyYapePendingRefresh } from '@/components/yape-notifier';
 import { formatSoles } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -214,6 +214,12 @@ export function KioskShopping() {
                       <BarcodeScanButton
                         onScan={handleScan}
                         label="Cámara"
+                        className="h-12 px-4 shrink-0"
+                      />
+                      <BarcodeScanButton
+                        onScan={handleScan}
+                        label="Continuo"
+                        continuous
                         className="h-12 px-4 shrink-0"
                       />
                     </div>

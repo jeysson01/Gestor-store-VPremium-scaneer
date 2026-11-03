@@ -5,8 +5,8 @@ import {
   getPurchases,
   getPurchaseById,
   deletePurchase,
-} from '@/lib/actions/purchases';
-import { getProducts } from '@/lib/actions/products';
+} from '@/lib/data/repo/purchases';
+import { getProducts } from '@/lib/data/repo/products';
 import { BulkPurchaseDialog } from '@/components/bulk-purchase-dialog';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

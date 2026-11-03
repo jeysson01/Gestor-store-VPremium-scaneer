@@ -19,7 +19,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { logout } from '@/lib/actions/auth';
+import { logout } from '@/lib/data/repo/auth';
+import { SyncStatusBadge } from '@/components/sync-status-badge';
 
 const links = [
   { href: '/', label: 'Dashboard', icon: BarChart3Icon },
@@ -104,6 +105,7 @@ export function Navigation() {
             </div>
           </div>
 
+          <SyncStatusBadge className="mr-1 shrink-0" />
           <Button
             variant="ghost"
             size="sm"

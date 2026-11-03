@@ -9,7 +9,7 @@ import {
   exportProductsToExcel,
   exportPurchasesToExcel,
   importProductsFromExcel,
-} from '@/lib/actions/export';
+} from '@/lib/data/repo/export';
 import { downloadExcelFromBase64, fileToBase64 } from '@/lib/download-excel';
 
 export function ReportsPanel() {
@@ -23,7 +23,7 @@ export function ReportsPanel() {
     try {
       const result = await exportProductsToExcel();
       if (result.success && result.data) {
-        downloadExcelFromBase64(result.data, result.fileName ?? 'productos.xlsx');
+        await downloadExcelFromBase64(result.data, result.fileName ?? 'productos.xlsx');
         toast.success('Productos exportados correctamente');
       } else {
         toast.error(result.error || 'Error al exportar productos');
@@ -40,7 +40,7 @@ export function ReportsPanel() {
     try {
       const result = await exportPurchasesToExcel();
       if (result.success && result.data) {
-        downloadExcelFromBase64(result.data, result.fileName ?? 'compras.xlsx');
+        await downloadExcelFromBase64(result.data, result.fileName ?? 'compras.xlsx');
         toast.success('Compras exportadas correctamente');
       } else {
         toast.error(result.error || 'Error al exportar compras');

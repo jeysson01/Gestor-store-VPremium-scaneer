@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { loginAdmin } from '@/lib/actions/auth';
+import { loginAdmin } from '@/lib/data/repo/auth';
 import { toast } from 'sonner';
 
 export function LoginPage() {

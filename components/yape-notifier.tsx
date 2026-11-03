@@ -8,18 +8,20 @@ import { Button } from '@/components/ui/button';
 import {
   confirmCashForPurchase,
   confirmYapeForPurchase,
-} from '@/lib/actions/yape-notifications';
-import { deletePurchase } from '@/lib/actions/purchases';
+} from '@/lib/data/repo/yape';
+import { deletePurchase } from '@/lib/data/repo/purchases';
+import { getPendingApprovalPurchases } from '@/lib/data/repo/yape';
+import { useDataVersion } from '@/lib/data/hooks';
 
 type PendingPurchase = {
   id: number;
   purchaseNumber: string;
-  totalAmount: string;
+  totalAmount: string | number;
   notes: string | null;
   status?: string;
 };
 
-const POLL_MS = 4000;
+const POLL_MS = 15000;
 const REFRESH_EVENT = 'yape-pending-refresh';
 const PURCHASES_REFRESH_EVENT = 'purchases-refresh';
 
@@ -107,10 +109,9 @@ export function YapeNotifier() {
 
   const loadPending = useCallback(async () => {
     try {
-      const res = await fetch('/api/yape/pending');
-      if (!res.ok) return;
-      const data = await res.json();
-      setPendingList(data.pendingList ?? (data.pending ? [data.pending] : []));
+      // Lectura local (instantánea); Supabase Realtime mantiene la base local al día.
+      const result = await getPendingApprovalPurchases();
+      if (result.success) setPendingList(result.data);
     } catch {
       // silencioso
     }
@@ -120,6 +121,12 @@ export function YapeNotifier() {
     loadPending();
     window.dispatchEvent(new CustomEvent(PURCHASES_REFRESH_EVENT));
   }, [loadPending]);
+
+  const dataVersion = useDataVersion(['purchases']);
+
+  useEffect(() => {
+    loadPending();
+  }, [dataVersion, loadPending]);
 
   useEffect(() => {
     loadPending();
