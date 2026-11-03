@@ -60,7 +60,7 @@ export function DashboardStats() {
       }
     };
 
-    loadData();
+    void loadData();
   }, [dataVersion]);
 
   if (loading) {

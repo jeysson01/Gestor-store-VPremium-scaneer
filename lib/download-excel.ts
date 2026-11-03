@@ -3,7 +3,7 @@ import { isTauri } from '@/lib/data/platform';
 function base64ToBytes(base64: string) {
   const binary = atob(base64);
   const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.codePointAt(i)!;
   return bytes;
 }
 

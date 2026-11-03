@@ -46,7 +46,7 @@ export function KioskShopping() {
   const total = cart.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
 
   useEffect(() => {
-    getKioskProducts().then((result) => {
+    void getKioskProducts().then((result) => {
       if (result.success && result.data) {
         setCatalog(result.data);
       }
@@ -238,7 +238,7 @@ export function KioskShopping() {
                       value={selectedProductId}
                       onSelect={(id) => {
                         setSelectedProductId(id);
-                        handleSelectByName(id);
+                        void handleSelectByName(id);
                       }}
                       placeholder="Buscar producto por nombre..."
                       className="h-12 text-base"

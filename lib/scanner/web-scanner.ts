@@ -93,7 +93,7 @@ export class WebScanner {
       : requestAnimationFrame(() => this.tick());
   }
 
-  private async tick() {
+  private tick() {
     if (!this.running) return;
     if (!this.busy) {
       this.busy = true;

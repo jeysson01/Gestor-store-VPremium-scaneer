@@ -64,14 +64,14 @@ export class SyncEngine {
   start() {
     this.db.setMutationHook(() => {
       this.update({ pending: this.db.pendingCount() });
-      this.kick();
+      void this.kick();
     });
     this.update({ online: this.connectivity.isOnline, pending: this.db.pendingCount() });
     this.unsubConn = this.connectivity.subscribe((online) => {
       this.update({ online });
       if (online) {
         this.failures = 0;
-        this.kick();
+        void this.kick();
         this.startRealtime();
       } else {
         this.stopRealtime();
@@ -81,7 +81,7 @@ export class SyncEngine {
     void this.db.ready.then(() => {
       this.update({ pending: this.db.pendingCount() });
       if (this.connectivity.isOnline) this.startRealtime();
-      this.kick();
+      void this.kick();
     });
   }
 

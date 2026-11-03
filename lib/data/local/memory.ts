@@ -8,42 +8,48 @@ export class MemoryStore implements LocalStore {
   private meta = new Map<string, string>();
   private seq = 0;
 
-  async init() {}
-
-  async loadAll(table: TableName) {
-    return [...(this.tables.get(table)?.values() ?? [])];
+  init() {
+    return Promise.resolve();
   }
 
-  async write(rows: Array<{ table: TableName; row: AnyRow }>, outbox: OutboxEntry[] = []) {
+  loadAll(table: TableName) {
+    return Promise.resolve([...(this.tables.get(table)?.values() ?? [])]);
+  }
+
+  write(rows: Array<{ table: TableName; row: AnyRow }>, outbox: OutboxEntry[] = []) {
     for (const { table, row } of rows) {
       if (!this.tables.has(table)) this.tables.set(table, new Map());
       this.tables.get(table)!.set(row.id, row);
     }
     for (const entry of outbox) this.outbox.push({ ...entry, seq: ++this.seq });
+    return Promise.resolve();
   }
 
-  async peekOutbox(limit: number) {
-    return this.outbox.slice(0, limit).map((e) => ({ ...e }));
+  peekOutbox(limit: number) {
+    return Promise.resolve(this.outbox.slice(0, limit).map((e) => ({ ...e })));
   }
 
-  async removeOutbox(seqs: number[]) {
+  removeOutbox(seqs: number[]) {
     const set = new Set(seqs);
     this.outbox = this.outbox.filter((e) => !set.has(e.seq!));
+    return Promise.resolve();
   }
 
-  async updateOutbox(entry: OutboxEntry) {
+  updateOutbox(entry: OutboxEntry) {
     this.outbox = this.outbox.map((e) => (e.seq === entry.seq ? { ...entry } : e));
+    return Promise.resolve();
   }
 
-  async countOutbox() {
-    return this.outbox.length;
+  countOutbox() {
+    return Promise.resolve(this.outbox.length);
   }
 
-  async getMeta(key: string) {
-    return this.meta.get(key) ?? null;
+  getMeta(key: string) {
+    return Promise.resolve(this.meta.get(key) ?? null);
   }
 
-  async setMeta(key: string, value: string) {
+  setMeta(key: string, value: string) {
     this.meta.set(key, value);
+    return Promise.resolve();
   }
 }

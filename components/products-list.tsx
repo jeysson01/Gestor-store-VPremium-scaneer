@@ -157,7 +157,7 @@ export function ProductsList() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      loadProducts();
+      void loadProducts();
     }, 300);
     return () => clearTimeout(timer);
   }, [search]);
@@ -169,7 +169,7 @@ export function ProductsList() {
         toast.success('Producto creado exitosamente');
         setCreateOpen(false);
         createForm.reset(defaultFormValues);
-        loadProducts();
+        void loadProducts();
       } else {
         toast.error(result.error || 'Error al crear producto');
       }
@@ -202,7 +202,7 @@ export function ProductsList() {
         toast.success('Producto actualizado');
         setEditOpen(false);
         setEditingProduct(null);
-        loadProducts();
+        void loadProducts();
       } else {
         toast.error(result.error || 'Error al actualizar producto');
       }
@@ -217,7 +217,7 @@ export function ProductsList() {
       const result = await deleteProduct(id);
       if (result.success) {
         toast.success('Producto eliminado');
-        loadProducts();
+        void loadProducts();
       } else {
         toast.error('Error al eliminar producto');
       }

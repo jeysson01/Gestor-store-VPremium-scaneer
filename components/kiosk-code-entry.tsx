@@ -33,7 +33,7 @@ export function KioskCodeEntry() {
     if (!qr || qrHandled.current) return;
     qrHandled.current = true;
 
-    (async () => {
+    void (async () => {
       setLoading(true);
       const result = await loginWithKioskQr(qr, getDeviceId());
       if (result.success) {

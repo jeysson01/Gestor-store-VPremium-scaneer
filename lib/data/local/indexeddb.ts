@@ -54,7 +54,7 @@ export class IndexedDbStore implements LocalStore {
     await this.db.put('outbox', entry);
   }
 
-  async countOutbox() {
+  countOutbox() {
     return this.db.count('outbox');
   }
 

@@ -13,10 +13,14 @@ export class LocalDb {
   private pending = new Map<string, number>();
   private listeners = new Set<ChangeListener>();
   private onMutate: (() => void) | null = null;
-  readonly ready: Promise<void>;
+  private readyPromise: Promise<void> | null = null;
 
-  constructor(readonly store: LocalStore) {
-    this.ready = this.load();
+  constructor(readonly store: LocalStore) {}
+
+  /** Carga perezosa de la base local en la caché (se inicia en el primer acceso). */
+  get ready(): Promise<void> {
+    this.readyPromise ??= this.load();
+    return this.readyPromise;
   }
 
   private async load() {

@@ -7,12 +7,14 @@ import { useSession } from '@/lib/data/hooks';
 const ADMIN_PREFIXES = ['/productos', '/compras', '/reportes', '/kiosk-panel'];
 const PUBLIC_ROUTES = ['/login', '/kiosk/ingreso'];
 
-function strip(path: string) {
-  return path.length > 1 ? path.replace(/\/+$/, '') : path;
+export function stripTrailingSlashes(path: string) {
+  let end = path.length;
+  while (end > 1 && path[end - 1] === '/') end--;
+  return path.slice(0, end);
 }
 
 function routeKind(path: string): 'public' | 'admin' | 'kiosk' {
-  const p = strip(path);
+  const p = stripTrailingSlashes(path);
   if (PUBLIC_ROUTES.includes(p)) return 'public';
   if (p === '/kiosk') return 'kiosk';
   if (p === '/' || ADMIN_PREFIXES.some((r) => p === r || p.startsWith(`${r}/`))) return 'admin';

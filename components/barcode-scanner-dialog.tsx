@@ -84,7 +84,7 @@ export function BarcodeScannerDialog({
   useEffect(() => {
     if (!open || !native) return;
     let cancelled = false;
-    (async () => {
+    void (async () => {
       const { scanNativeIOS, cancelNativeIOS } = await import('@/lib/scanner/native-ios');
       try {
         do {
@@ -115,7 +115,7 @@ export function BarcodeScannerDialog({
     setCount(0);
     let scanner: import('@/lib/scanner/web-scanner').WebScanner | null = null;
     let cancelled = false;
-    (async () => {
+    void (async () => {
       setStarting(true);
       try {
         const { WebScanner } = await import('@/lib/scanner/web-scanner');

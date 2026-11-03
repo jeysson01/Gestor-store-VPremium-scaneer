@@ -67,7 +67,7 @@ export function PurchasesList() {
   };
 
   useEffect(() => {
-    loadData();
+    void loadData();
     const onRefresh = () => loadData();
     window.addEventListener(PURCHASES_REFRESH_EVENT_NAME, onRefresh);
     return () => window.removeEventListener(PURCHASES_REFRESH_EVENT_NAME, onRefresh);
@@ -107,7 +107,7 @@ export function PurchasesList() {
           setSelectedPurchase(null);
         }
         setDeleteTarget(null);
-        loadData();
+        void loadData();
       } else {
         toast.error(result.error || 'No se pudo eliminar la compra');
       }
@@ -311,7 +311,7 @@ export function PurchasesList() {
         onSuccess={() => {
           setEditDialogOpen(false);
           setEditingPurchase(null);
-          loadData();
+          void loadData();
         }}
         purchaseToEdit={editingPurchase}
         dialogOpen={editDialogOpen}
@@ -337,7 +337,7 @@ export function PurchasesList() {
               disabled={deleting}
               onClick={(e) => {
                 e.preventDefault();
-                handleDeleteConfirm();
+                void handleDeleteConfirm();
               }}
             >
               {deleting ? 'Eliminando...' : 'Eliminar'}

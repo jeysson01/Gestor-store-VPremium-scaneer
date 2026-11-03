@@ -141,7 +141,7 @@ export function ReportsPanel() {
             className="hidden"
             onChange={(e) => {
               const file = e.target.files?.[0];
-              if (file) handleImportProducts(file);
+              if (file) void handleImportProducts(file);
             }}
           />
           <Button

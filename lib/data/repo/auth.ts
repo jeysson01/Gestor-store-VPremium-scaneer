@@ -61,8 +61,8 @@ export async function logout() {
   if (typeof window !== 'undefined') window.location.assign('/login/');
 }
 
-export async function getSessionInfo() {
-  return { role: getSession()?.role ?? null };
+export function getSessionInfo() {
+  return Promise.resolve({ role: getSession()?.role ?? null });
 }
 
 // ───────────────────────────── Kiosko ─────────────────────────────

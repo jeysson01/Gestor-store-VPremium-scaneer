@@ -4,14 +4,14 @@ import { usePathname } from 'next/navigation';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { YapeNotifier, PURCHASES_REFRESH_EVENT_NAME } from '@/components/yape-notifier';
-import { AuthGuard } from '@/components/auth-guard';
+import { AuthGuard, stripTrailingSlashes } from '@/components/auth-guard';
 import { useDataVersion } from '@/lib/data/hooks';
 import { useEffect } from 'react';
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isKioskRoute = pathname?.startsWith('/kiosk') && !pathname?.startsWith('/kiosk-panel');
-  const isLoginRoute = pathname?.replace(/\/+$/, '') === '/login';
+  const isLoginRoute = stripTrailingSlashes(pathname ?? '') === '/login';
   const purchasesVersion = useDataVersion(['purchases', 'purchase_details', 'products']);
 
   // Cambios remotos (Realtime/pull) → las listas existentes se recargan desde la base local.

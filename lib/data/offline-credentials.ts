@@ -10,12 +10,12 @@ type Cached = { email: string; salt: string; hash: string };
 function toB64(buf: ArrayBuffer | Uint8Array) {
   const bytes = buf instanceof Uint8Array ? buf : new Uint8Array(buf);
   let s = '';
-  for (const b of bytes) s += String.fromCharCode(b);
+  for (const b of bytes) s += String.fromCodePoint(b);
   return btoa(s);
 }
 
 function fromB64(s: string) {
-  return Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+  return Uint8Array.from(atob(s), (c) => c.codePointAt(0)!);
 }
 
 export async function hashPassword(password: string, salt: Uint8Array) {

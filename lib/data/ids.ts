@@ -14,14 +14,17 @@ function random12(): number {
 }
 
 export function newId(): number {
-  const ms = Date.now() - EPOCH;
-  if (ms === lastMs) {
-    counter = (counter + 1) & 0x0fff;
-  } else {
-    lastMs = ms;
-    counter = random12();
+  const now = Date.now() - EPOCH;
+  if (now > lastMs) {
+    lastMs = now;
+    // Arranca en la mitad inferior para dejar margen a ráfagas dentro del mismo ms.
+    counter = random12() & 0x07ff;
+  } else if (++counter > 0x0fff) {
+    // Más de 4096 IDs en el mismo ms (o reloj hacia atrás): avanza el ms lógico.
+    lastMs++;
+    counter = 0;
   }
-  return ms * 4096 + counter;
+  return lastMs * 4096 + counter;
 }
 
 export function nowIso(): string {
